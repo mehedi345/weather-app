@@ -55,7 +55,8 @@
                     const currentTemp = document.getElementById("current_temp");
                     const currentWeather = document.getElementById("description");
                     cityName.innerText = data['name'];
-                    currentTemp.innerText = Math.round(data['main']['temp'] - 273.15);
+                    const temp = (data['main']['temp'] - 273.15);
+                    currentTemp.innerText = temp.toFixed(1);
                     currentWeather.innerText = data['weather'][0]['description'];
 
                     const iconCode = data['weather'][0]['icon'];
