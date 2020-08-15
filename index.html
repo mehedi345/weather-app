@@ -22,9 +22,9 @@
     <div class="container">
         <form class="col-md-6 m-auto py-5">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <input type="text" id="city_value" class="form-control" placeholder="Enter a location for Weather ...">
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-danger">Search</button>
+                    <button type="button" class="btn btn-danger" id="search_temp">Search</button>
                 </div>
             </div>
         </form>
@@ -35,7 +35,21 @@
             <h1 class="lead">Clouds</h1>
         </div>
     </div>
+    <script>
+        const cityValue = document.getElementById("city_value").value;
+        const searchTemp = document.getElementById("search_temp").addEventListener("click", function () {
+            fetch('https://api.openweathermap.org/data/2.5/weather?q='+ cityValue +'&appid=a97ebc68918f1d569522d2604dac67e2')
+                .then(response => response.json())
+                .then(data => console.log(data))
 
+                .catch(error => alert("Wrong City Name!"))
+        });
+
+
+
+
+
+    </script>
 </body>
 
 </html>
