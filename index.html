@@ -29,30 +29,42 @@
             </div>
         </form>
         <div class="weather-status text-white text-center">
-            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <img id="icon" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
             <h1 id="city_name">Dhaka</h1>
             <h3><span id="current_temp">38.06</span>&deg;C</h3>
             <h1 class="lead" id="description">Clouds</h1>
         </div>
     </div>
     <script>
-       const getWeatherData = city => {
-           fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=a97ebc68918f1d569522d2604dac67e2`)
-           .then (response => response.json())
-           .then(data => {
-                const cityName = document.getElementById("city_name");
-                const currentTemp = document.getElementById("current_temp");
-                const currentWeather = document.getElementById("description");
-                cityName.innerText = data['name'];
-                currentTemp.innerText = data['main']['temp'];
-                currentWeather.innerText = data['weather'][0]['description'];
-           })
-           .catch(error => alert('Wrong City Name!'))
-       }
-       document.getElementById("search_temp").addEventListener("click", function(){
-           const cityValue = document.getElementById("city_value").value;
-           getWeatherData(cityValue);
-       })
+        document.getElementById("search_temp").addEventListener("click", function () {
+            const cityValue = document.getElementById("city_value").value;
+            if (cityValue == "") {
+                alert("Enter City Name");
+            }
+            else {
+                getWeatherData(cityValue);
+            }
+
+
+        })
+        const getWeatherData = city => {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=a97ebc68918f1d569522d2604dac67e2`)
+                .then(response => response.json())
+                .then(data => {
+                    const cityName = document.getElementById("city_name");
+                    const currentTemp = document.getElementById("current_temp");
+                    const currentWeather = document.getElementById("description");
+                    cityName.innerText = data['name'];
+                    currentTemp.innerText = Math.round(data['main']['temp'] - 273.15);
+                    currentWeather.innerText = data['weather'][0]['description'];
+
+                    const iconCode = data['weather'][0]['icon'];
+                    const iconUrl = "https://openweathermap.org/img/w/" + iconCode + ".png";
+                    document.getElementById("icon").src = iconUrl;
+                })
+                .catch(error => alert('Wrong City Name!'))
+        }
+
 
 
 
